@@ -141,7 +141,7 @@ export default function Page() {
             Given gpt-researcher’s July code, RELAI found a bug a user reported {lead} days later, then wrote a test for it and a patch that passes it.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/90">
-            Discover named the empty-report bug (issue #{loop.issue}); eval turned that risk page into a frozen test that fails
+            Discover named the empty-report bug (issue #{loop.issue}) in 2 of its 3 runs; eval turned that risk page into a frozen test that fails
             before the real fix and passes after it; improve, without seeing the fix, wrote a patch that passes it too.
           </p>
           <p className="mt-3 max-w-3xl text-white/90">
@@ -161,7 +161,8 @@ export default function Page() {
         <h2 id="loop" className="text-2xl font-semibold">One bug, end to end</h2>
         <ol className="mt-6 grid gap-4 md:grid-cols-2">
           <Step label={`discover · code as of ${loop.snapshotDate}`} title="The risk">
-            “<Inline text={loop.riskQuote} />” <a href={`${BLOB}/${loop.riskPage}`} className="text-sky underline">risk page</a>
+            “<Inline text={loop.riskQuote} />” <a href={`${BLOB}/${loop.riskPage}`} className="text-sky underline">risk page</a>{" "}
+            <span className="text-muted">(its “Found at: 0595cd3” is the local commit of snapshot {data.snapshot.commit}, made after history was removed)</span>
           </Step>
           <Step label={`issue #${loop.issue} · ${loop.issueDate} · ${lead} days later`} title="The user report">
             “<Inline text={loop.issueQuote} />” <a href={`${GPTR}/issues/${loop.issue}`} className="text-sky underline">#{loop.issue}</a>, fixed by{" "}
@@ -204,7 +205,7 @@ export default function Page() {
               <Inline text={loop.controlLine} />
             </p>
             <p className="mt-3 text-xs text-muted">
-              Correct, as one line of a longer report. <a href={`${BLOB}/${loop.controlRun}`} className="text-sky underline">Full report</a>
+              Correct, as one line of a longer report; this arm’s findings were not run through eval. <a href={`${BLOB}/${loop.controlRun}`} className="text-sky underline">Full report</a>
             </p>
           </figure>
         </div>
