@@ -1,0 +1,12 @@
+{
+  "id": "report-llm-failure-not-silent",
+  "query": "How does the James Webb Space Telescope's primary mirror differ from Hubble's, and why does it matter for infrared astronomy?",
+  "report_type": "research_report",
+  "report_source": "web",
+  "fault": "rate_limit",
+  "context": [
+    "Source: https://science.nasa.gov/mission/webb/mirrors/\nTitle: Webb's Mirrors - NASA Science\nContent: Webb's primary mirror is 6.5 meters (21 feet 4 inches) across and is made of 18 hexagonal segments. Each segment is made of beryllium and coated with a microscopically thin layer of gold, which optimizes the mirror for reflecting infrared light. The segments were folded for launch and unfolded in space.\n",
+    "Source: https://science.nasa.gov/mission/hubble/observatory/design/optics/\nTitle: Hubble Optics - NASA Science\nContent: Hubble's primary mirror is 2.4 meters (7 feet 10.5 inches) in diameter and is a single piece of ultra-low-expansion glass coated with aluminum and a protective layer of magnesium fluoride. Hubble observes mainly in ultraviolet, visible and near-infrared light.\n",
+    "Source: https://webb.nasa.gov/content/about/faqs/faq.html\nTitle: Webb FAQ - NASA\nContent: Webb's larger collecting area, about 6.25 times Hubble's, lets it see fainter and more distant objects. Because the light from the earliest galaxies is redshifted into the infrared, Webb was designed to observe primarily in the infrared, from 0.6 to 28.5 microns, and operates at about 40 kelvin behind a five-layer sunshield.\n"
+  ]
+}

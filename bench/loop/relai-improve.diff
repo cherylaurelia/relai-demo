@@ -1,0 +1,17 @@
+diff --git a/gpt_researcher/actions/report_generation.py b/gpt_researcher/actions/report_generation.py
+index dc1ee54..45fcd13 100644
+--- a/gpt_researcher/actions/report_generation.py
++++ b/gpt_researcher/actions/report_generation.py
+@@ -304,6 +304,11 @@ Place each image on its own line after the relevant section header or paragraph.
+                 **kwargs
+             )
+         except Exception as e:
+-            print(f"Error in generate_report: {e}")
++            logger.error(f"Error in generate_report: {e}")
++            # Both attempts failed: surface it so callers don't save an empty report as finished.
++            # Subtopic sections keep returning "" so one failed section doesn't discard a detailed
++            # report's finished sections (its caller has no error handling).
++            if report_type != "subtopic_report":
++                raise
+ 
+     return report

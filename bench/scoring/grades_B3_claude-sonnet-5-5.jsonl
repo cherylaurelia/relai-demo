@@ -1,0 +1,30 @@
+{"bug":2055,"match":true,"risk_quote":"`Any` and `List` are used in a type hint before they are imported (line 37). On Python 3.11–3.13 this raises `NameError` at import","issue_quote":"uses `Any` / `Dict` / `List` in annotations but never imports them","note":"Same file and mechanism for defect 2. The gitlink defect is not covered."}
+{"bug":2060,"match":true,"risk_quote":"They call `self._route_fact_check` and `self._route_draft_review`, which don't exist. Every `multi_agents` run fails with `AttributeError`","issue_quote":"both conditional-edge routers are wired to methods that do not exist","note":"Same files, methods and AttributeError."}
+{"bug":2061,"match":true,"risk_quote":"Approval is a substring check: `\"no\" in feedback` treats \"not enough detail\" as approval.","issue_quote":"Any feedback *containing* the letters \"no\" is treated as approval and silently discarded","note":"Same mechanism and code expression. The risk names no file, only the multi-agent human feedback loop."}
+{"bug":2062,"match":true,"risk_quote":"The revision cap reads a `revisions_count` key that nothing ever sets.","issue_quote":"The router reads a key nothing writes. ... `state.get('revisions_count', 0)`","note":"Same key and mechanism, in the multi-agent human loop."}
+{"bug":2065,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about costs.py or cache_read token pricing."}
+{"bug":2069,"match":true,"risk_quote":"`Any` and `List` are used in a type hint before they are imported (line 37).","issue_quote":"the import for Any is defined underneath the place it is actually being used","note":"Same import-order bug in query_processing.py."}
+{"bug":2077,"match":false,"risk_quote":"","issue_quote":"","note":"The risk about WebBaseLoader timeouts is a different mechanism from discarding content when the enrichment fetch fails."}
+{"bug":2093,"match":true,"risk_quote":"`research_data += ' '.join(additional_research)` joins a string, which puts a space between every character","issue_quote":"applies `\" \".join(...)` directly to the complementary string, inserting a space between every character","note":"Exact match in researcher.py."}
+{"bug":2094,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about get_retrievers header fallback."}
+{"bug":2095,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about parse_search_queries_response whitespace validation."}
+{"bug":2096,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about MCP transport URL scheme detection."}
+{"bug":2097,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about chat search metadata."}
+{"bug":2098,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about GoogleSearch YouTube filtering."}
+{"bug":2100,"match":true,"risk_quote":"Prefetched retriever results skip URL de-duplication, and URLs are only de-duplicated by exact string","issue_quote":"The prefetched branch calls `add_research_sources()` but never touches `visited_urls`.","note":"Same prefetched-dedup mechanism. The risk names no file, but it sits under the researcher.py items."}
+{"bug":2110,"match":true,"risk_quote":"The \"zero search queries\" guard returns `all_learnings` and other names that are only assigned at line 416, so it raises `UnboundLocalError`.","issue_quote":"the guard returns variables that are initialized only **after** the guard","note":"Same function and mechanism. The risk says UnboundLocalError where the issue says NameError."}
+{"bug":2115,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about visited_urls or None-vs-empty-set handling."}
+{"bug":2125,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about load_dotenv ordering in multi_agents/main.py."}
+{"bug":2127,"match":false,"risk_quote":"","issue_quote":"","note":"OpenAlex is not named in the timeout risk, and JSON-parse failure is a different mechanism."}
+{"bug":2129,"match":true,"risk_quote":"Several search retrievers have no HTTP timeout (Google, Bing, Searx, Semantic Scholar, PubMed).","issue_quote":"performs its external request without a timeout","note":"Semantic Scholar is named and the timeout mechanism matches. The JSON-parse part is not covered."}
+{"bug":2132,"match":true,"risk_quote":"Several search retrievers have no HTTP timeout (Google, Bing, Searx, Semantic Scholar, PubMed).","issue_quote":"calls the external Bing endpoint without a timeout or request-error guard","note":"Bing is named and the missing-timeout mechanism matches."}
+{"bug":2144,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about plan_research initial sources being dropped."}
+{"bug":2163,"match":false,"risk_quote":"","issue_quote":"","note":"The risk about the unsettable revisions_count key does not cover an empty reply skipping the plan_revision_count increment."}
+{"bug":2192,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about Config resetting the MCP lists."}
+{"bug":2214,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about the GoogleSearch URL substring filter."}
+{"bug":2218,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about generate_report returning an empty string on LLM failure."}
+{"bug":2239,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about LangChainDocumentLoader."}
+{"bug":2240,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about the Exa retriever."}
+{"bug":2251,"match":true,"risk_quote":"the deep-research LLM calls pass no cost callback, so reported deep-research cost is far too low.","issue_quote":"These calls are billed, but they skip cost_callback, so get_costs() doesn't include them.","note":"Same deep_research.py missing cost callback. The empty-response part is not covered."}
+{"bug":2277,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about PyMuPDFScraper titles."}
+{"bug":2323,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about detailed_report context seeding or global_context."}

@@ -1,0 +1,15 @@
+{
+  "tests": {
+    "tests/report-llm-failure-not-silent": {
+      "digest": "5008b523870ec1b7fa469880702dc9acdb6ffb8e600804e57b0c2248eb2c40a9",
+      "frozen_at": "2026-11-18T04:11:07+00:00",
+      "history": [
+        {
+          "at": "2026-11-18T04:11:07+00:00",
+          "digest": "5008b523870ec1b7fa469880702dc9acdb6ffb8e600804e57b0c2248eb2c40a9",
+          "reason": "first freeze"
+        }
+      ]
+    }
+  }
+}

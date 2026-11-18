@@ -1,0 +1,13 @@
+diff --git a/gpt_researcher/actions/report_generation.py b/gpt_researcher/actions/report_generation.py
+index 43d55f48..32cf725a 100644
+--- a/gpt_researcher/actions/report_generation.py
++++ b/gpt_researcher/actions/report_generation.py
+@@ -321,6 +321,7 @@ Place each image on its own line after the relevant section header or paragraph.
+                 **kwargs
+             )
+         except Exception as e:
+-            print(f"Error in generate_report: {e}")
++            logger.error(f"Error in generate_report: {e}")
++            raise
+ 
+     return report

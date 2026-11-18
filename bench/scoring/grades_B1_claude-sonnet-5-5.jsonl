@@ -1,0 +1,30 @@
+{"bug":2055,"match":true,"risk_quote":"`gpt_researcher/actions/query_processing.py:6` uses `Any`/`List` in a function signature, but the typing import is at line 37, and the file has no `from __future__ import annotations`.","issue_quote":"`query_processing.py` missing its typing import; the server cannot boot","note":"Same file and NameError mechanism. The gitlink defect was not anticipated, but the typing defect matches."}
+{"bug":2060,"match":true,"risk_quote":"`multi_agents/agents/orchestrator.py:102` refers to `self._route_fact_check` and `editor.py:140` to `self._route_draft_review`; neither method exists","issue_quote":"both review-loop routers reference undefined methods — workflow crashes at graph construction","note":"Same routers and same undefined-method mechanism."}
+{"bug":2061,"match":true,"risk_quote":"The human-feedback check `\"no\" in feedback` treats \"nonprofits\" as approval.","issue_quote":"if user_feedback and \"no\" in user_feedback.strip().lower():","note":"Same substring mechanism at the human gate. The risk names the check but not human.py; the visualizer half is not covered."}
+{"bug":2062,"match":true,"risk_quote":"The plan-revision limit reads a state key nothing sets, so plan revisions are unbounded.","issue_quote":"router reads `revisions_count`, which nothing writes","note":"Same router and same mechanism."}
+{"bug":2065,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about cache_read token cost accounting."}
+{"bug":2069,"match":false,"risk_quote":"","issue_quote":"","note":"No risk matches this issue's component and mechanism."}
+{"bug":2077,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about WebBaseLoaderScraper."}
+{"bug":2093,"match":true,"risk_quote":"At `researcher.py:158`, `research_data += ' '.join(additional_research)` runs on a string, so every character gets a space between it","issue_quote":"complementary web context is split into space-separated characters","note":"Same line and same mechanism."}
+{"bug":2094,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about the retrievers header."}
+{"bug":2095,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about whitespace-only fields in parse_search_queries_response."}
+{"bug":2096,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about MCP transport autodetection."}
+{"bug":2097,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about chat search metadata."}
+{"bug":2098,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about GoogleSearch YouTube filtering."}
+{"bug":2100,"match":false,"risk_quote":"","issue_quote":"","note":"Risk 7 is about URLs added to visited_urls before scraping, not prefetched sources never being added."}
+{"bug":2110,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about the NameError on the deep research zero-query path."}
+{"bug":2115,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about an empty visited_urls set."}
+{"bug":2125,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about the load_dotenv ordering."}
+{"bug":2127,"match":false,"risk_quote":"","issue_quote":"","note":"The OpenAlex retriever is not named."}
+{"bug":2129,"match":true,"risk_quote":"Several HTTP calls have no timeout (Bing, Google, Searx, Semantic Scholar, PubMed).","issue_quote":"Semantic Scholar retriever has an unbounded request and unguarded JSON parsing","note":"Same retriever and the same no-timeout mechanism. The risk lists several retrievers, but names this one."}
+{"bug":2132,"match":true,"risk_quote":"Several HTTP calls have no timeout (Bing, Google, Searx, Semantic Scholar, PubMed).","issue_quote":"Bing retriever has an unbounded request and propagates transport failures","note":"Bing is named in the risk with the no-timeout mechanism."}
+{"bug":2144,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about plan_research initial sources being dropped."}
+{"bug":2163,"match":false,"risk_quote":"","issue_quote":"","note":"The risk is about the revisions key never being set. This bug is about empty console replies not being counted."}
+{"bug":2192,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about Config MCP list reset."}
+{"bug":2214,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about GoogleSearch URL filtering."}
+{"bug":2218,"match":true,"risk_quote":"`generate_report` returns `\"\"` if both tries fail.","issue_quote":"generate_report returns an empty string when the LLM call fails, instead of raising an error","note":"Same function and same mechanism."}
+{"bug":2239,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about LangChainDocumentLoader."}
+{"bug":2240,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about ExaSearch."}
+{"bug":2251,"match":false,"risk_quote":"","issue_quote":"","note":"The risk about deep research costs not rolling up to the parent is a different mechanism from retry costs and empty responses."}
+{"bug":2277,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about PyMuPDFScraper titles."}
+{"bug":2323,"match":false,"risk_quote":"","issue_quote":"","note":"No risk about detailed_report context seeding or global_context."}

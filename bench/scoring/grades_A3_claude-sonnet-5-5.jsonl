@@ -1,0 +1,30 @@
+{"bug":2055,"match":false,"risk_quote":"","issue_quote":"","note":"Gitlink and a missing typing import in query_processing.py; no risk names either."}
+{"bug":2060,"match":true,"risk_quote":"`ChatAgentWithMemory` is not named; `ChiefEditorAgent._add_workflow_edges` passes `self._route_fact_check` (multi_agents/agents/orchestrator.py:100-104) and `EditorAgent._create_workflow` passes `self._route_draft_review` (multi_agents/agents/editor.py:138-142); neither method is defined.","issue_quote":"`ChiefEditorAgent` defines no `_route_fact_check`","note":"Same files, same undefined router methods, same AttributeError."}
+{"bug":2061,"match":true,"risk_quote":"human.py:47 discards feedback when `\"no\" in user_feedback.lower()`; the strict helper `is_human_plan_approval` (agents/utils/none_sentinels.py:30-42) exists but is unused.","issue_quote":"Human plan gate still substring-matches \"no\". `multi_agents/agents/human.py`, line 47","note":"Same file, line and substring-match mechanism."}
+{"bug":2062,"match":true,"risk_quote":"The plan edge checks `revisions_count`, which nothing writes (HumanAgent writes `plan_revision_count`)","issue_quote":"The router reads a key nothing writes. `multi_agents/agents/orchestrator.py`, lines 88–96","note":"Same router, same unwritten key."}
+{"bug":2065,"match":false,"risk_quote":"","issue_quote":"","note":"The cache_read cost accounting in costs.py is not named in any risk."}
+{"bug":2069,"match":false,"risk_quote":"","issue_quote":"","note":"Import order in query_processing.py; not anticipated."}
+{"bug":2077,"match":false,"risk_quote":"","issue_quote":"","note":"WebBaseLoaderScraper is not covered."}
+{"bug":2093,"match":true,"risk_quote":"researcher.py:157-158 does `research_data += ' '.join(additional_research)` where `additional_research` is already a string, inserting a space between every character.","issue_quote":"applies `\" \".join(...)` directly to the complementary string, inserting a space between every character.","note":"Same code and same mechanism."}
+{"bug":2094,"match":false,"risk_quote":"","issue_quote":"","note":"The blank retrievers header is not covered."}
+{"bug":2095,"match":false,"risk_quote":"","issue_quote":"","note":"Whitespace-only fields in parse_search_queries_response are not named."}
+{"bug":2096,"match":false,"risk_quote":"","issue_quote":"","note":"MCP URL scheme case handling is not covered."}
+{"bug":2097,"match":false,"risk_quote":"","issue_quote":"","note":"The risk concerns a second search giving different sources. The bug is stale metadata after a failed search."}
+{"bug":2098,"match":false,"risk_quote":"","issue_quote":"","note":"GoogleSearch YouTube filtering is not covered."}
+{"bug":2100,"match":false,"risk_quote":"","issue_quote":"","note":"The risk says visited_urls contains too many URLs. The bug says prefetched sources are never added."}
+{"bug":2110,"match":true,"risk_quote":"The early return for `not serp_queries` (deep_research.py:406-414) references `all_learnings` etc., which are first assigned at lines 416-420.","issue_quote":"the guard returns variables that are initialized only **after** the guard.","note":"Same function, same use-before-assignment."}
+{"bug":2115,"match":false,"risk_quote":"","issue_quote":"","note":"The empty visited_urls falsy-set handling is not covered."}
+{"bug":2125,"match":false,"risk_quote":"","issue_quote":"","note":"The load_dotenv ordering in multi_agents/main.py is not covered."}
+{"bug":2127,"match":false,"risk_quote":"","issue_quote":"","note":"OpenAlex retriever is not covered."}
+{"bug":2129,"match":false,"risk_quote":"","issue_quote":"","note":"Semantic Scholar retriever is not covered."}
+{"bug":2132,"match":false,"risk_quote":"","issue_quote":"","note":"Bing retriever is not covered."}
+{"bug":2144,"match":false,"risk_quote":"","issue_quote":"","note":"Loss of plan_research sources is not named in any risk."}
+{"bug":2163,"match":false,"risk_quote":"","issue_quote":"","note":"The risk covers revisions_count and max caps. The bug is an empty reply that skips plan_revision_count."}
+{"bug":2192,"match":false,"risk_quote":"","issue_quote":"","note":"Config resetting the MCP lists is not covered."}
+{"bug":2214,"match":false,"risk_quote":"","issue_quote":"","note":"GoogleSearch URL filtering is not covered."}
+{"bug":2218,"match":false,"risk_quote":"","issue_quote":"","note":"generate_report in report_generation.py returning an empty string is not named. The swallowed-errors risk is a catch-all."}
+{"bug":2239,"match":false,"risk_quote":"","issue_quote":"","note":"LangChainDocumentLoader is not covered."}
+{"bug":2240,"match":false,"risk_quote":"","issue_quote":"","note":"ExaSearch is not covered."}
+{"bug":2251,"match":true,"risk_quote":"several LLM calls pass no cost_callback, so `research_costs` (line 601) understates spend. Non-streaming LLM calls retry up to 10 times on any error (utils/llm.py:110) and failed attempts are not costed.","issue_quote":"create_chat_completion then retries up to 10 times and drops the sub-query. These calls are billed, but they skip cost_callback","note":"Same retries and missing cost_callback in deep research, so cost is undercounted."}
+{"bug":2277,"match":false,"risk_quote":"","issue_quote":"","note":"PyMuPDFScraper is not covered."}
+{"bug":2323,"match":false,"risk_quote":"","issue_quote":"","note":"The detailed-report risk is about subtopic failure and dedupe. The bug is context overwrite and global_context replacement."}

@@ -1,0 +1,30 @@
+{"bug":2055,"scope":"ordinary","why":"Stray gitlink breaks Docker builds; missing typing import crashes boot"}
+{"bug":2060,"scope":"agent","why":"Fact-check and draft-review routers unbound, so the multi-agent review loops cannot be built"}
+{"bug":2061,"scope":"agent","why":"Substring matching misreads human plan feedback and drops valid model diagrams"}
+{"bug":2062,"scope":"agent","why":"Plan-revision limit never fires, so the planner/human loop is unbounded"}
+{"bug":2065,"scope":"agent","why":"LLM cost tracking ignores cached tokens and overreports OpenAI cost"}
+{"bug":2069,"scope":"ordinary","why":"Typing import placed below its use crashes at startup"}
+{"bug":2077,"scope":"ordinary","why":"Overly broad try/except in a scraper discards already-fetched content"}
+{"bug":2093,"scope":"agent","why":"Complementary research context is split into characters before reaching the LLM"}
+{"bug":2094,"scope":"ordinary","why":"Header parsing skips the default fallback when retriever names are blank"}
+{"bug":2095,"scope":"agent","why":"LLM query parser accepts blank fields, creating empty deep-research branches"}
+{"bug":2096,"scope":"ordinary","why":"Case-sensitive URL scheme check picks the wrong transport"}
+{"bug":2097,"scope":"agent","why":"Failed chat search tool call gets the previous search's sources attached"}
+{"bug":2098,"scope":"ordinary","why":"Case-sensitive hostname substring filter in a retriever"}
+{"bug":2100,"scope":"agent","why":"Prefetched sources skip dedup and are left out of the report's References"}
+{"bug":2110,"scope":"agent","why":"Fallback for empty LLM query output crashes instead of stopping cleanly"}
+{"bug":2115,"scope":"ordinary","why":"Falsy empty-set idiom replaces the caller's shared set object"}
+{"bug":2125,"scope":"ordinary","why":"Environment variables are read before .env is loaded"}
+{"bug":2127,"scope":"ordinary","why":"Unguarded JSON parsing of an HTTP response"}
+{"bug":2129,"scope":"ordinary","why":"HTTP request has no timeout and JSON parsing is unguarded"}
+{"bug":2132,"scope":"ordinary","why":"HTTP request has no timeout and transport errors are unhandled"}
+{"bug":2144,"scope":"agent","why":"Sources seen during planning never reach the writer's context, giving a wrong answer"}
+{"bug":2163,"scope":"agent","why":"Empty plan-review reply re-plans without counting toward the revision limit"}
+{"bug":2192,"scope":"ordinary","why":"Config init overwrites MCP lists it already loaded with empty lists"}
+{"bug":2214,"scope":"ordinary","why":"URL filter matches the whole URL instead of the parsed hostname"}
+{"bug":2218,"scope":"agent","why":"Report LLM failure is swallowed and an empty report is logged as success"}
+{"bug":2239,"scope":"ordinary","why":"Document loader has no input validation, so one bad row aborts the batch"}
+{"bug":2240,"scope":"ordinary","why":"Retriever client exceptions and None returns are not handled"}
+{"bug":2251,"scope":"agent","why":"Reasoning uses up max_tokens, causing empty outputs, untracked retries and undercounted costs"}
+{"bug":2277,"scope":"ordinary","why":"PDF scraper has no title fallback when document metadata is missing"}
+{"bug":2323,"scope":"agent","why":"Detailed report's subtopic context seeding is overwritten and global context replaced"}

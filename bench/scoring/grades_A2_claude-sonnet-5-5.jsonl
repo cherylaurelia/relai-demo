@@ -1,0 +1,30 @@
+{"bug":2055,"match":false,"risk_quote":"","issue_quote":"","note":"Packaging and import defects; no risk names query_processing.py or the gitlink."}
+{"bug":2060,"match":true,"risk_quote":"conditional edges reference `self._route_fact_check` (orchestrator) and `self._route_draft_review` (editor); neither method exists.","issue_quote":"both conditional-edge routers are wired to methods that do not exist.","note":"Same files and same missing-method AttributeError."}
+{"bug":2061,"match":true,"risk_quote":"`if user_feedback and \"no\" in user_feedback.lower(): user_feedback = None` — a substring test; the strict `is_human_plan_approval` helper exists but is unused.","issue_quote":"Any feedback *containing* the letters \"no\" is treated as approval and silently discarded","note":"Same human.py:47 substring bug. The visualizer part is not covered."}
+{"bug":2062,"match":true,"risk_quote":"the graph edge reads `revisions_count` but the human node writes `plan_revision_count`; the documented `max_plan_revisions` is only used by an unwired helper.","issue_quote":"The router reads a key nothing writes.","note":"Same orchestrator.py key mismatch."}
+{"bug":2065,"match":false,"risk_quote":"","issue_quote":"","note":"Cache-read token accounting; no risk names it."}
+{"bug":2069,"match":false,"risk_quote":"","issue_quote":"","note":"Import placement question; no matching risk."}
+{"bug":2077,"match":false,"risk_quote":"","issue_quote":"","note":"WebBaseLoaderScraper enrichment failure; not named in the risks."}
+{"bug":2093,"match":true,"risk_quote":"`_get_context_by_web_search` returns a joined string; the caller does `research_data += ' '.join(additional_research)`, inserting a space between every character.","issue_quote":"the implementation applies `\" \".join(...)` directly to the complementary string, inserting a space between every character.","note":"Same researcher.py join bug."}
+{"bug":2094,"match":false,"risk_quote":"","issue_quote":"","note":"Blank retrievers header; no matching risk."}
+{"bug":2095,"match":false,"risk_quote":"","issue_quote":"","note":"parse_search_queries_response whitespace validation; no risk names that function or mechanism."}
+{"bug":2096,"match":false,"risk_quote":"","issue_quote":"","note":"MCP transport scheme case; the MCP risks cover other mechanisms."}
+{"bug":2097,"match":false,"risk_quote":"","issue_quote":"","note":"Chat search metadata reuse; no matching risk."}
+{"bug":2098,"match":false,"risk_quote":"","issue_quote":"","note":"GoogleSearch YouTube filter case sensitivity; no matching risk."}
+{"bug":2100,"match":false,"risk_quote":"","issue_quote":"","note":"The visited_urls race risk has a different mechanism: prefetched sources never added vs concurrent claim."}
+{"bug":2110,"match":true,"risk_quote":"the zero-queries early return reads `all_learnings` etc. before they are assigned.","issue_quote":"the guard returns variables that are initialized only **after** the guard.","note":"Same deep_research.py use-before-assignment."}
+{"bug":2115,"match":false,"risk_quote":"","issue_quote":"","note":"`visited_urls or set()` falsy-empty-set bug; no risk names it."}
+{"bug":2125,"match":false,"risk_quote":"","issue_quote":"","note":"Tracing env read before load_dotenv; no matching risk."}
+{"bug":2127,"match":false,"risk_quote":"","issue_quote":"","note":"OpenAlex malformed JSON; no matching risk."}
+{"bug":2129,"match":false,"risk_quote":"","issue_quote":"","note":"Semantic Scholar retriever; no matching risk."}
+{"bug":2132,"match":false,"risk_quote":"","issue_quote":"","note":"Bing retriever; no matching risk."}
+{"bug":2144,"match":false,"risk_quote":"","issue_quote":"","note":"plan_research sources dropped; the planner-guess risk is a different mechanism."}
+{"bug":2163,"match":false,"risk_quote":"","issue_quote":"","note":"Empty console reply not counted in human.py; the cap risk is the router key mismatch, not this."}
+{"bug":2192,"match":false,"risk_quote":"","issue_quote":"","note":"MCP config reset in Config; no matching risk."}
+{"bug":2214,"match":false,"risk_quote":"","issue_quote":"","note":"GoogleSearch URL filter; no matching risk."}
+{"bug":2218,"match":true,"risk_quote":"`generate_report` prints the error and returns \"\"","issue_quote":"the exception is swallowed with a `print()` and the function returns `\"\"`.","note":"Same function, same swallow-and-return-empty mechanism."}
+{"bug":2239,"match":false,"risk_quote":"","issue_quote":"","note":"LangChainDocumentLoader batch abort; no matching risk."}
+{"bug":2240,"match":false,"risk_quote":"","issue_quote":"","note":"ExaSearch client failures; no matching risk."}
+{"bug":2251,"match":true,"risk_quote":"`create_chat_completion` retries empty responses and errors up to 10 times (1 when streaming to a websocket); costs are recorded only on success","issue_quote":"create_chat_completion then retries up to 10 times and drops the sub-query. These calls are billed, but they skip cost_callback","note":"Same create_chat_completion retry and cost under-reporting with reasoning models."}
+{"bug":2277,"match":false,"risk_quote":"","issue_quote":"","note":"PyMuPDFScraper titles; no matching risk."}
+{"bug":2323,"match":false,"risk_quote":"","issue_quote":"","note":"Detailed report context seeding; no risk names detailed_report.py."}

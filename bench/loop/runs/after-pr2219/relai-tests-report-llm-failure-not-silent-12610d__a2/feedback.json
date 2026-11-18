@@ -1,0 +1,1 @@
+{"failure-not-silent": "Writer failure reached the caller. All 20 report-writer model requests failed with RateLimitError (429), and write_report raised builtins.RuntimeError caused by openai.RateLimitError instead of returning a report."}

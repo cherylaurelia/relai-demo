@@ -1,0 +1,1 @@
+Read this agent's code, prompts and docs, and tell me where it is likely to fail. I'm not available to answer questions during this run: where you would ask me, record the question in your output instead and continue to the end.

@@ -1,0 +1,14 @@
+[metadata.relai]
+id = "report-llm-failure-not-silent"
+behavior = "When every report-writer model call fails, write_report raises an exception to its caller instead of returning a report (empty or otherwise) that looks finished."
+covers = ["report-llm-failure-returns-empty"]
+split = "development"
+prohibition = false
+
+[[metadata.relai.evaluators]]
+id = "failure-not-silent"
+type = "code"
+method = "exact"
+criterion = "After all report-writer model requests fail (HTTP 429 from the fault stub), write_report raises an exception to its caller (1); any return value, empty or not, scores 0. Errors (not scores) when the writer call never reached the stub, a stub reply was not an error, or the outermost raised exception is a programming error (tests/params.json programming_errors)."
+min_score = 0.0
+max_score = 1.0

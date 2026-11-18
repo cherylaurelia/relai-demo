@@ -1,0 +1,9 @@
+{
+  "writer_call_marker": "operates at about 40 kelvin behind a five-layer sunshield",
+  "min_writer_calls": 1,
+  "injected_error": "openai.RateLimitError",
+  "programming_errors": ["builtins.KeyError", "builtins.TypeError", "builtins.AttributeError", "builtins.NameError",
+                         "builtins.IndexError", "builtins.UnboundLocalError", "builtins.ImportError",
+                         "builtins.ModuleNotFoundError", "builtins.AssertionError", "builtins.SyntaxError",
+                         "builtins.RecursionError"]
+}

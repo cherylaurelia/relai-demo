@@ -1,0 +1,14 @@
+[metadata.relai]
+id = "smoke"
+behavior = "Harness smoke test (not an eval): the real write_report runs from live source in the sandbox, its model calls reach the fault stub and are recorded in order, and its outcome reaches the verifier."
+covers = []
+split = "development"
+prohibition = false
+
+[[metadata.relai.evaluators]]
+id = "agent-ran-and-recorded"
+type = "code"
+method = "exact"
+criterion = "outcome.json exists; at least one writer model call carrying the scenario context is journaled; the trajectory starts with the user request, holds one system step per journaled call in journal order with its request messages, and ends with the recorded outcome (the returned report as the agent step, or the raised exception)."
+min_score = 0.0
+max_score = 1.0

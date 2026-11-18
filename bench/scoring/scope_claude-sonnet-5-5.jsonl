@@ -1,0 +1,30 @@
+{"bug":2055,"scope":"ordinary","why":"Docker gitlink build failure and missing typing import; generic packaging/import defects."}
+{"bug":2060,"scope":"agent","why":"Review-loop routers for the multi-agent research workflow are unbound, crashing the workflow."}
+{"bug":2061,"scope":"agent","why":"Substring matching misreads human feedback and LLM diagram output."}
+{"bug":2062,"scope":"agent","why":"Plan-revision limit never triggers, so the planning loop is unbounded."}
+{"bug":2065,"scope":"agent","why":"LLM cost tracking ignores cached prompt tokens, overreporting cost."}
+{"bug":2069,"scope":"ordinary","why":"Import ordering NameError at startup; generic Python import error."}
+{"bug":2077,"scope":"ordinary","why":"Scraper discards content when a second HTTP fetch fails; generic error handling."}
+{"bug":2093,"scope":"agent","why":"Research context corrupted by character-wise join before reaching the writer."}
+{"bug":2094,"scope":"ordinary","why":"Blank retriever header config parsing skips the default fallback."}
+{"bug":2095,"scope":"agent","why":"LLM-generated search query output validation accepts blank fields."}
+{"bug":2096,"scope":"ordinary","why":"Case-sensitive URL scheme check in MCP transport detection; string handling."}
+{"bug":2097,"scope":"agent","why":"Chat agent reports stale search metadata and sources for a failed search."}
+{"bug":2098,"scope":"ordinary","why":"Case-sensitive URL substring filter in a search utility."}
+{"bug":2100,"scope":"agent","why":"Prefetched sources skip dedup and get dropped from report citations."}
+{"bug":2110,"scope":"agent","why":"Deep research crashes handling an empty LLM-generated query list."}
+{"bug":2115,"scope":"ordinary","why":"Falsy empty-set default replaces a caller-supplied set; generic Python bug."}
+{"bug":2125,"scope":"ordinary","why":"load_dotenv called after environment checks; config loading order."}
+{"bug":2127,"scope":"ordinary","why":"Retriever JSON parsing outside the try block; HTTP response parsing."}
+{"bug":2129,"scope":"ordinary","why":"Missing HTTP timeout and unguarded JSON parsing in a retriever."}
+{"bug":2132,"scope":"ordinary","why":"Missing HTTP timeout and error handling in the Bing retriever."}
+{"bug":2144,"scope":"agent","why":"Planning-stage sources are lost, so the writer's evidence is incomplete and the answer is wrong."}
+{"bug":2163,"scope":"agent","why":"Empty human plan feedback re-plans without counting toward the revision limit."}
+{"bug":2192,"scope":"ordinary","why":"Config init resets MCP lists after loading; config loading bug."}
+{"bug":2214,"scope":"ordinary","why":"Substring URL filter instead of hostname check; URL handling."}
+{"bug":2218,"scope":"agent","why":"Report generation swallows LLM failure and returns an empty report as success."}
+{"bug":2239,"scope":"ordinary","why":"Document loader crashes on malformed rows; generic input validation."}
+{"bug":2240,"scope":"ordinary","why":"Retriever client exceptions and None results are unhandled; generic error handling."}
+{"bug":2251,"scope":"agent","why":"LLM returns empty responses from the token budget, and retry costs are untracked."}
+{"bug":2277,"scope":"ordinary","why":"PDF scraper metadata title fallback; generic parsing issue."}
+{"bug":2323,"scope":"agent","why":"Research context seeding and accumulation lose context fed to subtopic reports."}

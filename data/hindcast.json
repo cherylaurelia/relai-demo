@@ -1,0 +1,695 @@
+{
+ "snapshot": {
+  "repo": "assafelovic/gpt-researcher",
+  "commit": "5d84d2f",
+  "date": "2026-07-14"
+ },
+ "window": [
+  "2026-08-01",
+  "2026-11-17"
+ ],
+ "counts": {
+  "issues": 52,
+  "bugs": 30,
+  "agent_bugs": 14,
+  "classes": {
+   "bug": 30,
+   "setup": 2,
+   "other": 20
+  }
+ },
+ "runs": [
+  {
+   "arm": "relai",
+   "run": 1,
+   "start": "2026-11-18T03:30:35Z",
+   "end": "2026-11-18T03:37:27Z",
+   "risks": 20,
+   "hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2110,
+    2218,
+    2251
+   ],
+   "agent_hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2110,
+    2218,
+    2251
+   ]
+  },
+  {
+   "arm": "relai",
+   "run": 2,
+   "start": "2026-11-18T03:39:04Z",
+   "end": "2026-11-18T03:44:38Z",
+   "risks": 18,
+   "hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2110,
+    2218,
+    2251
+   ],
+   "agent_hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2110,
+    2218,
+    2251
+   ]
+  },
+  {
+   "arm": "relai",
+   "run": 3,
+   "start": "2026-11-18T03:39:04Z",
+   "end": "2026-11-18T03:44:48Z",
+   "risks": 22,
+   "hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2110,
+    2251
+   ],
+   "agent_hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2110,
+    2251
+   ]
+  },
+  {
+   "arm": "control",
+   "run": 1,
+   "start": "2026-11-18T03:30:35Z",
+   "end": "2026-11-18T03:33:48Z",
+   "risks": 17,
+   "hits": [
+    2055,
+    2060,
+    2061,
+    2062,
+    2093,
+    2129,
+    2132,
+    2218
+   ],
+   "agent_hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2218
+   ]
+  },
+  {
+   "arm": "control",
+   "run": 2,
+   "start": "2026-11-18T03:39:04Z",
+   "end": "2026-11-18T03:42:18Z",
+   "risks": 19,
+   "hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2100,
+    2110,
+    2192,
+    2218,
+    2251
+   ],
+   "agent_hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2100,
+    2110,
+    2218,
+    2251
+   ]
+  },
+  {
+   "arm": "control",
+   "run": 3,
+   "start": "2026-11-18T03:39:04Z",
+   "end": "2026-11-18T03:42:16Z",
+   "risks": 9,
+   "hits": [
+    2055,
+    2060,
+    2061,
+    2062,
+    2069,
+    2093,
+    2110,
+    2129,
+    2132,
+    2251
+   ],
+   "agent_hits": [
+    2060,
+    2061,
+    2062,
+    2093,
+    2110,
+    2251
+   ]
+  }
+ ],
+ "bugs": [
+  {
+   "number": 2055,
+   "title": "v3.6.0 broken as shipped: stray committed gitlink breaks git-URL Docker builds; missing typing import crashes the server at boot",
+   "created": "2026-08-07",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2055",
+   "scope": "ordinary",
+   "mechanism": "The function's annotations use Any/List before typing is imported at line 37, so importing the module raises NameError and the server cannot boot.",
+   "quotes": [
+    {
+     "run": "control-1",
+     "risk": "`gpt_researcher/actions/query_processing.py:6` uses `Any`/`List` in a function signature, but the typing import is at line 37, and the file has no `from __future__ import annotations`.",
+     "issue": "`gpt_researcher/actions/query_processing.py` in v3.6.0 uses `Any` / `Dict` / `List` in annotations but never imports them"
+    },
+    {
+     "run": "control-3",
+     "risk": "`Any` and `List` are used in a type hint before they are imported (line 37). On Python 3.11\u20133.13 this raises `NameError` at import",
+     "issue": "`gpt_researcher/actions/query_processing.py` in v3.6.0 uses `Any` / `Dict` / `List` in annotations but never imports them"
+    }
+   ]
+  },
+  {
+   "number": 2060,
+   "title": "multi_agents: both review-loop routers reference undefined methods \u2014 workflow crashes at graph construction (regression around #1909)",
+   "created": "2026-08-11",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2060",
+   "scope": "agent",
+   "mechanism": "Conditional edges reference self._route_fact_check and self._route_draft_review, which are never defined, so building the workflow raises AttributeError.",
+   "quotes": [
+    {
+     "run": "relai-1",
+     "risk": "The orchestrator and editor pass `self._route_fact_check` and `self._route_draft_review` to `add_conditional_edges`. Neither method is defined.",
+     "issue": "`ChiefEditorAgent` defines no `_route_fact_check` (no base class, no assignment anywhere in the package) \u2014 `self._route_fact_check` raises `AttributeError`"
+    },
+    {
+     "run": "relai-2",
+     "risk": "conditional edges reference `self._route_fact_check` (orchestrator) and `self._route_draft_review` (editor); neither method exists.",
+     "issue": "both conditional-edge routers are wired to methods that do not exist."
+    },
+    {
+     "run": "relai-3",
+     "risk": "`ChiefEditorAgent._add_workflow_edges` passes `self._route_fact_check` (multi_agents/agents/orchestrator.py:100-104) and `EditorAgent._create_workflow` passes `self._route_draft_review` (multi_agents/agents/editor.py:138-142); neither method is defined.",
+     "issue": "both conditional-edge routers are wired to methods that do not exist."
+    },
+    {
+     "run": "control-1",
+     "risk": "`multi_agents/agents/orchestrator.py:102` refers to `self._route_fact_check` and `editor.py:140` to `self._route_draft_review`; neither method exists (confirmed by grep).",
+     "issue": "`ChiefEditorAgent` defines no `_route_fact_check` (no base class, no assignment anywhere in the package)"
+    },
+    {
+     "run": "control-2",
+     "risk": "Both call `self._route_fact_check` / `self._route_draft_review`, which are never defined.",
+     "issue": "`ChiefEditorAgent` defines no `_route_fact_check` (no base class, no assignment anywhere in the package)"
+    },
+    {
+     "run": "control-3",
+     "risk": "They call `self._route_fact_check` and `self._route_draft_review`, which don't exist. Every `multi_agents` run fails with `AttributeError` while the graph is being built.",
+     "issue": "`ChiefEditorAgent` defines no `_route_fact_check` (no base class, no assignment anywhere in the package)"
+    }
+   ]
+  },
+  {
+   "number": 2061,
+   "title": "multi_agents: strict sentinel parsers from #1909 are not used at the human gate, and the new visualizer reintroduces substring matching",
+   "created": "2026-08-11",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2061",
+   "scope": "agent",
+   "mechanism": "Substring tests ('no' in feedback, 'None' not in diagram) wrongly accept real feedback as approval and drop valid diagrams.",
+   "quotes": [
+    {
+     "run": "relai-1",
+     "risk": "`human.py` treats any feedback where `\"no\" in feedback.lower()` as approval. A strict `is_human_plan_approval` helper exists and is tested, but it is not used.",
+     "issue": "Any feedback *containing* the letters \"no\" is treated as approval and silently discarded"
+    },
+    {
+     "run": "relai-2",
+     "risk": "`if user_feedback and \"no\" in user_feedback.lower(): user_feedback = None` \u2014 a substring test; the strict `is_human_plan_approval` helper exists but is unused.",
+     "issue": "Human plan gate still substring-matches \"no\"."
+    },
+    {
+     "run": "relai-3",
+     "risk": "human.py:47 discards feedback when `\"no\" in user_feedback.lower()`; the strict helper `is_human_plan_approval` (agents/utils/none_sentinels.py:30-42) exists but is unused.",
+     "issue": "Any feedback *containing* the letters \"no\" is treated as approval and silently discarded"
+    },
+    {
+     "run": "control-1",
+     "risk": "The human-feedback check `\"no\" in feedback` treats \"nonprofits\" as approval.",
+     "issue": "Any feedback *containing* the letters \"no\" is treated as approval and silently discarded"
+    },
+    {
+     "run": "control-2",
+     "risk": "Human feedback is approved whenever it contains the substring `\"no\"` (\"add a section on **no**des\").",
+     "issue": "Any feedback *containing* the letters \"no\" is treated as approval and silently discarded"
+    },
+    {
+     "run": "control-3",
+     "risk": "Approval is a substring check: `\"no\" in feedback` treats \"not enough detail\" as approval.",
+     "issue": "Any feedback *containing* the letters \"no\" is treated as approval and silently discarded"
+    }
+   ]
+  },
+  {
+   "number": 2062,
+   "title": "multi_agents: plan-revision limit can never trigger \u2014 router reads `revisions_count`, which nothing writes (and two competing bounds disagree)",
+   "created": "2026-08-11",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2062",
+   "scope": "agent",
+   "mechanism": "The router reads revisions_count, which nothing writes, so force_accept never fires and the plan loop runs until the recursion limit.",
+   "quotes": [
+    {
+     "run": "relai-1",
+     "risk": "The revision cap reads `revisions_count`, while the human node writes `plan_revision_count`, so `max_plan_revisions` never applies.",
+     "issue": "The state schema (`memory/research.py`) and `human.py` maintain `plan_revision_count`; no code in the package ever writes `revisions_count`."
+    },
+    {
+     "run": "relai-2",
+     "risk": "the graph edge reads `revisions_count` but the human node writes `plan_revision_count`",
+     "issue": "router reads `revisions_count`, which nothing writes"
+    },
+    {
+     "run": "relai-3",
+     "risk": "The plan edge checks `revisions_count`, which nothing writes (HumanAgent writes `plan_revision_count`)",
+     "issue": "router reads `revisions_count`, which nothing writes"
+    },
+    {
+     "run": "control-1",
+     "risk": "The plan-revision limit reads a state key nothing sets, so plan revisions are unbounded.",
+     "issue": "The router reads a key nothing writes."
+    },
+    {
+     "run": "control-2",
+     "risk": "The feedback loop's cap reads `revisions_count`, which doesn't exist (the key is `plan_revision_count`).",
+     "issue": "`state.get('revisions_count', 0)` is therefore always `0`, `force_accept` can never fire"
+    },
+    {
+     "run": "control-3",
+     "risk": "The revision cap reads a `revisions_count` key that nothing ever sets.",
+     "issue": "`state.get('revisions_count', 0)` is therefore always `0`, `force_accept` can never fire"
+    }
+   ]
+  },
+  {
+   "number": 2065,
+   "title": "OpenAI cost tracking never reads input_token_details.cache_read, so prompt-cache-hit tokens are billed at full price",
+   "created": "2026-08-13",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2065",
+   "scope": "agent",
+   "mechanism": "OpenAI cached input tokens (input_token_details.cache_read) are priced at the full input rate, so costs are overreported.",
+   "quotes": []
+  },
+  {
+   "number": 2069,
+   "title": "Import should be at the top of the file right?",
+   "created": "2026-08-18",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2069",
+   "scope": "ordinary",
+   "mechanism": "typing import comes after its first use in annotations, so module import raises NameError at boot.",
+   "quotes": [
+    {
+     "run": "control-3",
+     "risk": "`Any` and `List` are used in a type hint before they are imported (line 37). On Python 3.11\u20133.13 this raises `NameError` at import",
+     "issue": "Especially when the import for Any is defined underneath the place it is actually being used/called upon."
+    }
+   ]
+  },
+  {
+   "number": 2077,
+   "title": "WebBaseLoaderScraper discards extracted content when image/title enrichment fetch fails",
+   "created": "2026-08-23",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2077",
+   "scope": "ordinary",
+   "mechanism": "A failure in the second image/title fetch hits the blanket except, which returns empty content and discards text already extracted.",
+   "quotes": []
+  },
+  {
+   "number": 2093,
+   "title": "Bug: complementary web context is split into space-separated characters",
+   "created": "2026-08-31",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2093",
+   "scope": "agent",
+   "mechanism": "' '.join() is applied to the complementary web-context string, inserting a space between every character.",
+   "quotes": [
+    {
+     "run": "relai-1",
+     "risk": "`research_data += ' '.join(additional_research)` is applied to a string, which puts a space between every character.",
+     "issue": "the implementation applies `\" \".join(...)` directly to the complementary string, inserting a space between every character."
+    },
+    {
+     "run": "relai-2",
+     "risk": "`_get_context_by_web_search` returns a joined string; the caller does `research_data += ' '.join(additional_research)`, inserting a space between every character.",
+     "issue": "applies `\" \".join(...)` directly to the complementary string, inserting a space between every character."
+    },
+    {
+     "run": "relai-3",
+     "risk": "researcher.py:157-158 does `research_data += ' '.join(additional_research)` where `additional_research` is already a string, inserting a space between every character.",
+     "issue": "applies `\" \".join(...)` directly to the complementary string, inserting a space between every character."
+    },
+    {
+     "run": "control-1",
+     "risk": "At `researcher.py:158`, `research_data += ' '.join(additional_research)` runs on a string, so every character gets a space between it (\"a b c\").",
+     "issue": "the implementation applies `\" \".join(...)` directly to the complementary string, inserting a space between every character"
+    },
+    {
+     "run": "control-2",
+     "risk": "`research_data += ' '.join(additional_research)` runs on a string, which puts a space between every character.",
+     "issue": "the implementation applies `\" \".join(...)` directly to the complementary string, inserting a space between every character"
+    },
+    {
+     "run": "control-3",
+     "risk": "`research_data += ' '.join(additional_research)` joins a string, which puts a space between every character",
+     "issue": "the implementation applies `\" \".join(...)` directly to the complementary string, inserting a space between every character."
+    }
+   ]
+  },
+  {
+   "number": 2094,
+   "title": "Bug: an all-blank retrievers header bypasses the default retriever",
+   "created": "2026-08-31",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2094",
+   "scope": "ordinary",
+   "mechanism": "An all-blank retrievers header is normalized to an empty list after the default branch is skipped, so no retriever is returned.",
+   "quotes": []
+  },
+  {
+   "number": 2095,
+   "title": "Bug: parse_search_queries_response accepts whitespace-only required fields",
+   "created": "2026-09-01",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2095",
+   "scope": "agent",
+   "mechanism": "The truthiness check runs before strip(), so whitespace-only query/researchGoal fields pass as empty strings.",
+   "quotes": []
+  },
+  {
+   "number": 2096,
+   "title": "Bug: MCP transport autodetection treats uppercase URL schemes as stdio",
+   "created": "2026-09-01",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2096",
+   "scope": "ordinary",
+   "mechanism": "Case-sensitive scheme startswith checks misclassify HTTPS/WSS URLs as stdio and drop the URL and headers.",
+   "quotes": []
+  },
+  {
+   "number": 2097,
+   "title": "Bug: failed chat search reuses metadata from the previous successful search",
+   "created": "2026-09-01",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2097",
+   "scope": "agent",
+   "mechanism": "A failed search does not reset self.search_metadata, so it is reported with the previous search's query and sources.",
+   "quotes": []
+  },
+  {
+   "number": 2098,
+   "title": "Bug: GoogleSearch YouTube filtering is case-sensitive",
+   "created": "2026-09-01",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2098",
+   "scope": "ordinary",
+   "mechanism": "YouTube filtering is a case-sensitive substring test, so mixed-case YouTube hosts get through and use up result slots.",
+   "quotes": []
+  },
+  {
+   "number": 2100,
+   "title": "Prefetched sources (requires_scraping=False) never enter visited_urls, so they don't dedupe and drop out of References",
+   "created": "2026-09-02",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2100",
+   "scope": "agent",
+   "mechanism": "Prefetched raw_content results are never added to visited_urls, so they aren't deduplicated and are missing from References.",
+   "quotes": [
+    {
+     "run": "control-2",
+     "risk": "Results that arrive with `raw_content` already fetched never enter `visited_urls`, so they're missing.",
+     "issue": "The prefetched branch calls `add_research_sources()` but never touches `visited_urls`."
+    }
+   ]
+  },
+  {
+   "number": 2110,
+   "title": "Deep research zero-query path raises NameError before fallback state is initialized",
+   "created": "2026-09-08",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2110",
+   "scope": "agent",
+   "mechanism": "The zero-query early return references all_* variables before they are assigned, raising an unbound-variable error.",
+   "quotes": [
+    {
+     "run": "relai-1",
+     "risk": "When `generate_search_queries` returns `[]`, `deep_research` returns `all_learnings` and other locals before assigning them, which raises `UnboundLocalError`.",
+     "issue": "the guard returns variables that are initialized only **after** the guard."
+    },
+    {
+     "run": "relai-2",
+     "risk": "the zero-queries early return reads `all_learnings` etc. before they are assigned.",
+     "issue": "the guard returns variables that are initialized only **after** the guard."
+    },
+    {
+     "run": "relai-3",
+     "risk": "The early return for `not serp_queries` (deep_research.py:406-414) references `all_learnings` etc., which are first assigned at lines 416-420.",
+     "issue": "the guard returns variables that are initialized only **after** the guard."
+    },
+    {
+     "run": "control-2",
+     "risk": "When no search queries come back, the early `return` uses `all_learnings` and friends, which aren't assigned until line 416.",
+     "issue": "the guard returns variables that are initialized only **after** the guard."
+    },
+    {
+     "run": "control-3",
+     "risk": "The \"zero search queries\" guard returns `all_learnings` and other names that are only assigned at line 416, so it raises `UnboundLocalError`.",
+     "issue": "the guard returns variables that are initialized only **after** the guard."
+    }
+   ]
+  },
+  {
+   "number": 2115,
+   "title": "Passing an empty visited_urls set breaks shared URL-dedup state",
+   "created": "2026-09-08",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2115",
+   "scope": "ordinary",
+   "mechanism": "`visited_urls or set()` replaces a caller-supplied empty shared set, breaking shared URL dedup.",
+   "quotes": []
+  },
+  {
+   "number": 2125,
+   "title": "multi_agents .env tracing settings are read before load_dotenv()",
+   "created": "2026-09-13",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2125",
+   "scope": "ordinary",
+   "mechanism": "LANGCHAIN_API_KEY (and later Monocle vars) are checked before load_dotenv(), so .env tracing settings are ignored.",
+   "quotes": []
+  },
+  {
+   "number": 2127,
+   "title": "OpenAlex retriever crashes on malformed JSON responses",
+   "created": "2026-09-13",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2127",
+   "scope": "ordinary",
+   "mechanism": "response.json() sits outside the try, so a malformed 200 body raises instead of returning [].",
+   "quotes": []
+  },
+  {
+   "number": 2129,
+   "title": "Semantic Scholar retriever has an unbounded request and unguarded JSON parsing",
+   "created": "2026-09-13",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2129",
+   "scope": "ordinary",
+   "mechanism": "requests.get has no timeout and response.json() is unguarded, so the call can hang or raise on a malformed body.",
+   "quotes": [
+    {
+     "run": "control-1",
+     "risk": "Several HTTP calls have no timeout (Bing, Google, Searx, Semantic Scholar, PubMed).",
+     "issue": "`SemanticScholarSearch.search()` currently performs its external request without a timeout"
+    },
+    {
+     "run": "control-3",
+     "risk": "**Several search retrievers have no HTTP timeout** (Google, Bing, Searx, Semantic Scholar, PubMed).",
+     "issue": "`SemanticScholarSearch.search()` currently performs its external request without a timeout"
+    }
+   ]
+  },
+  {
+   "number": 2132,
+   "title": "Bing retriever has an unbounded request and propagates transport failures",
+   "created": "2026-09-13",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2132",
+   "scope": "ordinary",
+   "mechanism": "requests.get has no timeout and no RequestException guard, so it can hang and transport errors propagate.",
+   "quotes": [
+    {
+     "run": "control-1",
+     "risk": "Several HTTP calls have no timeout (Bing, Google, Searx, Semantic Scholar, PubMed).",
+     "issue": "`BingSearch.search()` currently calls the external Bing endpoint without a timeout or request-error guard"
+    },
+    {
+     "run": "control-3",
+     "risk": "**Several search retrievers have no HTTP timeout** (Google, Bing, Searx, Semantic Scholar, PubMed).",
+     "issue": "`BingSearch.search()` currently calls the external Bing endpoint without a timeout or request-error guard:"
+    }
+   ]
+  },
+  {
+   "number": 2144,
+   "title": "Initial planning sources are lost when follow-up searches return empty or different results",
+   "created": "2026-09-23",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2144",
+   "scope": "agent",
+   "mechanism": "Initial planning search results are used only for the outline and never scraped, so those sources are lost if follow-up searches fail.",
+   "quotes": []
+  },
+  {
+   "number": 2163,
+   "title": "multi_agents: an empty console reply at plan review re-plans without counting toward max_plan_revisions",
+   "created": "2026-09-26",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2163",
+   "scope": "agent",
+   "mechanism": "An empty console reply returns '' (not None), which routes to revise without incrementing plan_revision_count, so re-planning is unbounded.",
+   "quotes": []
+  },
+  {
+   "number": 2192,
+   "title": "MCP configuration lists are reset during Config initialization",
+   "created": "2026-10-04",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2192",
+   "scope": "ordinary",
+   "mechanism": "After _set_attributes loads them, mcp_servers and mcp_allowed_root_paths are reassigned to [], discarding configured MCP servers.",
+   "quotes": [
+    {
+     "run": "control-2",
+     "risk": "**`MCP_SERVERS` and `MCP_ALLOWED_ROOT_PATHS` from config are always wiped** (`config/config.py:53-54`). Both are reset to `[]` after the config file has been loaded.",
+     "issue": "Later in `Config.__init__`, both attributes are assigned `[]`, followed by self-assignments that cannot recover the loaded values."
+    }
+   ]
+  },
+  {
+   "number": 2214,
+   "title": "GoogleSearch drops non-YouTube URLs containing youtube.com outside the hostname",
+   "created": "2026-10-17",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2214",
+   "scope": "ordinary",
+   "mechanism": "YouTube filter matches 'youtube.com' anywhere in the URL rather than the hostname, dropping unrelated articles.",
+   "quotes": []
+  },
+  {
+   "number": 2218,
+   "title": "generate_report returns an empty string when the LLM call fails, instead of raising an error",
+   "created": "2026-10-18",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2218",
+   "scope": "agent",
+   "mechanism": "When both LLM attempts fail, the exception is printed and an empty report is returned with no error raised.",
+   "quotes": [
+    {
+     "run": "relai-1",
+     "risk": "`generate_report`, `write_report_introduction` and `write_conclusion` catch exceptions and return `\"\"`.",
+     "issue": "If the retry also fails, the exception is swallowed with a `print()` and the function returns `\"\"`."
+    },
+    {
+     "run": "relai-2",
+     "risk": "`generate_report` prints the error and returns \"\"",
+     "issue": "the exception is swallowed with a `print()` and the function returns `\"\"`."
+    },
+    {
+     "run": "control-1",
+     "risk": "The streamed final report gets only one attempt, and `generate_report` returns `\"\"` if both tries fail.",
+     "issue": "If the retry also fails, the exception is swallowed with a `print()` and the function returns `\"\"`."
+    },
+    {
+     "run": "control-2",
+     "risk": "The fallback in `generate_report` streams again, so the UI shows duplicated text. If both attempts fail, the error is only printed and an empty report is returned.",
+     "issue": "If the retry also fails, the exception is swallowed with a `print()` and the function returns `\"\"`."
+    }
+   ]
+  },
+  {
+   "number": 2239,
+   "title": "LangChainDocumentLoader.load() aborts the whole batch on a single malformed row",
+   "created": "2026-10-28",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2239",
+   "scope": "ordinary",
+   "mechanism": "With no per-row guards, a None-metadata or non-Document row raises AttributeError and aborts the whole batch.",
+   "quotes": []
+  },
+  {
+   "number": 2240,
+   "title": "ExaSearch.find_similar() / get_contents() propagate client failures and abort the research loop",
+   "created": "2026-10-28",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2240",
+   "scope": "ordinary",
+   "mechanism": "Client calls are unwrapped and results.results is read off a possibly-None result, so failures propagate into the research loop.",
+   "quotes": []
+  },
+  {
+   "number": 2251,
+   "title": "Deep research: gpt-5.4 returns empty responses (max_tokens=4000 + high reasoning), and the retries aren\u2019t counted in costs",
+   "created": "2026-10-31",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2251",
+   "scope": "agent",
+   "mechanism": "max_tokens=4000 with high reasoning yields empty gpt-5.x responses; up to 10 retries are billed but never reach cost_callback.",
+   "quotes": [
+    {
+     "run": "relai-1",
+     "risk": "deep research uses 4000 with high reasoning effort. Empty completions are retried up to 10 times, and each retry is billed.",
+     "issue": "process_research_results uses reasoning_effort=High with max_tokens=4000."
+    },
+    {
+     "run": "relai-2",
+     "risk": "`create_chat_completion` retries empty responses and errors up to 10 times (1 when streaming to a websocket); costs are recorded only on success; the report call is capped at SMART_TOKEN_LIMIT, which reasoning tokens also consume.",
+     "issue": "create_chat_completion then retries up to 10 times and drops the sub-query. These calls are billed, but they skip cost_callback"
+    },
+    {
+     "run": "relai-3",
+     "risk": "Non-streaming LLM calls retry up to 10 times on any error (utils/llm.py:110) and failed attempts are not costed.",
+     "issue": "create_chat_completion then retries up to 10 times and drops the sub-query. These calls are billed, but they skip cost_callback"
+    },
+    {
+     "run": "control-2",
+     "risk": "Deep research's own LLM calls pass no `cost_callback`.",
+     "issue": "These calls are billed, but they skip cost_callback, so get_costs() doesn\u2019t include them."
+    },
+    {
+     "run": "control-3",
+     "risk": "Their costs are never added to the parent, and the deep-research LLM calls pass no cost callback, so reported deep-research cost is far too low.",
+     "issue": "These calls are billed, but they skip cost_callback, so get_costs() doesn\u2019t include them."
+    }
+   ]
+  },
+  {
+   "number": 2277,
+   "title": "PyMuPDFScraper returns empty titles for PDFs without document metadata",
+   "created": "2026-11-09",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2277",
+   "scope": "ordinary",
+   "mechanism": "PDFs without a metadata title get an empty title with no URL/filename fallback.",
+   "quotes": []
+  },
+  {
+   "number": 2323,
+   "title": "Detailed report: subtopic context seeding is overwritten by conduct_research, and global_context is replaced rather than accumulated",
+   "created": "2026-11-16",
+   "url": "https://github.com/assafelovic/gpt-researcher/issues/2323",
+   "scope": "agent",
+   "mechanism": "Seeded subtopic context is overwritten by conduct_research, and global_context is replaced rather than accumulated.",
+   "quotes": []
+  }
+ ]
+}

@@ -1,0 +1,1 @@
+{"failure-not-silent": "Writer failure not surfaced. All 20 report-writer model requests failed with RateLimitError (429); write_report then returned '' (empty, length 0) without raising, so the caller cannot tell a failed report from a finished one. Full marks need write_report to raise an exception to its caller when the report cannot be written."}

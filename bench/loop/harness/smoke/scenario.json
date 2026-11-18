@@ -1,0 +1,10 @@
+{
+  "id": "smoke",
+  "query": "What are the main differences between lithium iron phosphate and NMC battery chemistries?",
+  "report_type": "research_report",
+  "report_source": "web",
+  "fault": "rate_limit",
+  "context": [
+    "Source: https://batteryuniversity.com/article/bu-205-types-of-lithium-ion\nTitle: BU-205: Types of Lithium-ion - Battery University\nContent: Lithium iron phosphate (LFP) offers good thermal stability and a long cycle life but a lower nominal voltage (3.2 V) and lower specific energy than lithium nickel manganese cobalt oxide (NMC), whose nominal voltage is 3.6-3.7 V.\n"
+  ]
+}

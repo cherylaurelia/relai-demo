@@ -1,0 +1,18 @@
+{
+  "riskPage": "bench/runs/relai-p1/wiki/risks/report-llm-failure-returns-empty.md",
+  "riskQuote": "`generate_report`, `write_report_introduction` and `write_conclusion` catch exceptions and return `\"\"`.",
+  "snapshotDate": "2026-07-14",
+  "issue": 2218,
+  "issueDate": "2026-10-18",
+  "issueQuote": "If the retry also fails, the exception is swallowed with a `print()` and the function returns `\"\"`.",
+  "fixPr": 2219,
+  "fixMerged": "2026-11-09",
+  "testId": "report-llm-failure-not-silent",
+  "frozenAt": "2026-11-18T04:11:07Z",
+  "frozenCommit": "53934d8",
+  "trials": {
+    "snapshot": [0, 0, 0],
+    "withPr2219": [1, 1, 1],
+    "relaiImprove": [1, 1, 1]
+  }
+}
