@@ -15,6 +15,9 @@ interface Loop {
   frozenAt: string;
   frozenCommit: string;
   trials: { snapshot: number[]; withPr2219: number[]; relaiImprove: number[] };
+  riskPageExcerpt: string;
+  controlLine: string;
+  controlRun: string;
 }
 
 interface Hindcast {
@@ -44,6 +47,8 @@ const controlScoped = summarize(data.runs, "control", true);
 const relaiAll = summarize(data.runs, "relai", false);
 const controlAll = summarize(data.runs, "control", false);
 const controlCaught2218 = runsThatCaught(data.runs, "control", loop.issue);
+const agentBugs = data.bugs.filter((bug) => bug.scope === "agent");
+const ordinaryBugs = data.bugs.filter((bug) => bug.scope === "ordinary");
 
 function passed(trials: number[]): string {
   return `${trials.filter((score) => score === 1).length} of ${trials.length}`;
@@ -133,17 +138,17 @@ export default function Page() {
         </nav>
         <div className="mx-auto max-w-5xl px-6 pb-14 pt-10">
           <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            From a risk page to a frozen test to a blind fix: RELAI’s loop, run on gpt-researcher’s July code.
+            RELAI’s loop on gpt-researcher’s July code: risk → frozen test → blind fix.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/90">
-            Discover flagged the empty-report bug a user reported {lead} days later (issue #{loop.issue}). Eval turned the risk
-            page into a frozen test that fails on the July code and passes on the real fix, and improve wrote a patch that passes
-            it without seeing that fix. Across 3 runs, discover found the same {relaiScoped.inEveryRun.length} agent bugs every
-            time.
+            Eval turned a discover risk page into a frozen test that fails on the July code ({passed(loop.trials.snapshot)} pass)
+            and passes with the real fix ({passed(loop.trials.withPr2219)}). Improve, without seeing that fix, wrote a patch that
+            passes it too ({passed(loop.trials.relaiImprove)}). The bug: a user reported it {lead} days after that code (issue
+            #{loop.issue}).
           </p>
           <p className="mt-3 max-w-3xl text-white/90">
-            Bare Claude Code, with the same model and sandbox, also named #{loop.issue} in runs {controlCaught2218} of 3, and
-            finds more ordinary bugs. Both results are below.
+            Bare Claude Code, with the same model and sandbox, named #{loop.issue} too (runs {controlCaught2218} of 3) and finds
+            more ordinary bugs, but it leaves a list, not a test. Both results are below.
           </p>
           <p className="mt-4 text-sm text-white/80">
             One agent · one model (Claude Opus 5.5) · no traces (code and docs only) · no network · model graders
@@ -156,7 +161,7 @@ export default function Page() {
       </header>
 
       <section className="mx-auto max-w-5xl px-6 py-12" aria-labelledby="loop">
-        <h2 id="loop" className="text-2xl font-semibold">One hit, end to end</h2>
+        <h2 id="loop" className="text-2xl font-semibold">One bug, end to end</h2>
         <ol className="mt-6 grid gap-4 md:grid-cols-2">
           <Step label={`discover · code as of ${loop.snapshotDate}`} title="The risk">
             “<Inline text={loop.riskQuote} />” <a href={`${BLOB}/${loop.riskPage}`} className="text-sky underline">risk page</a>
@@ -186,6 +191,26 @@ export default function Page() {
             </p>
           </Step>
         </ol>
+      </section>
+
+      <section className="mx-auto max-w-5xl px-6 pb-12" aria-labelledby="artifact">
+        <h2 id="artifact" className="text-xl font-semibold">What each arm left for #{loop.issue}</h2>
+        <div className="mt-4 grid gap-4 md:grid-cols-2">
+          <figure className="rounded-[10px] border border-line bg-panel p-4">
+            <figcaption className="font-mono text-xs uppercase tracking-wider text-teal">RELAI discover · wiki risk page</figcaption>
+            <pre className="mt-3 whitespace-pre-wrap font-mono text-xs leading-relaxed text-soft">{loop.riskPageExcerpt}</pre>
+            <p className="mt-3 text-xs text-muted">Linked to a requirement, rated, with file:line evidence. Eval built the test from this page.</p>
+          </figure>
+          <figure className="rounded-[10px] border border-line bg-panel p-4">
+            <figcaption className="font-mono text-xs uppercase tracking-wider text-sky">Bare Claude Code · one line in its report</figcaption>
+            <p className="mt-3 font-mono text-xs leading-relaxed text-soft">
+              <Inline text={loop.controlLine} />
+            </p>
+            <p className="mt-3 text-xs text-muted">
+              Correct, as one line of a longer report. <a href={`${BLOB}/${loop.controlRun}`} className="text-sky underline">Full report</a>
+            </p>
+          </figure>
+        </div>
       </section>
 
       <section className="border-t border-line bg-panel/40" aria-labelledby="hindcast">
@@ -221,9 +246,9 @@ export default function Page() {
           </div>
           <ul className="mt-6 space-y-2 text-sm leading-relaxed text-soft">
             <li>
-              <strong className="text-ink">Within its scope, about even, and steadier.</strong> Discover found the same{" "}
+              <strong className="text-ink">Within its scope, about even, and repeatable.</strong> Discover found the same{" "}
               {relaiScoped.inEveryRun.length} agent bugs in every run; bare Claude Code agreed with itself on{" "}
-              {controlScoped.inEveryRun.length}.
+              {controlScoped.inEveryRun.length}. Frozen evals need a risk set that doesn’t change each time you ask.
             </li>
             <li>
               <strong className="text-ink">Outside its scope, bare Claude Code finds more.</strong> Its extra hits are import-time
@@ -237,12 +262,20 @@ export default function Page() {
             </li>
           </ul>
 
-          <h3 className="mt-10 font-semibold">Every bug, and which runs named it</h3>
+          <h3 className="mt-10 font-semibold">The {agentBugs.length} agent bugs, and which runs named them</h3>
           <ul className="mt-2">
-            {data.bugs.map((bug) => (
+            {agentBugs.map((bug) => (
               <BugRow key={bug.number} bug={bug} />
             ))}
           </ul>
+          <details className="mt-6">
+            <summary className="cursor-pointer font-semibold">The {ordinaryBugs.length} ordinary bugs (outside discover’s scope)</summary>
+            <ul className="mt-2">
+              {ordinaryBugs.map((bug) => (
+                <BugRow key={bug.number} bug={bug} />
+              ))}
+            </ul>
+          </details>
         </div>
       </section>
 
