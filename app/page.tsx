@@ -133,13 +133,17 @@ export default function Page() {
         </nav>
         <div className="mx-auto max-w-5xl px-6 pb-14 pt-10">
           <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Run on gpt-researcher’s July code, RELAI flagged the empty-report bug a user reported {lead} days later.
+            From a risk page to a frozen test to a blind fix: RELAI’s loop, run on gpt-researcher’s July code.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/90">
-            I ran the discover skill on <a href={GPTR} className="underline">gpt-researcher</a> as it was on{" "}
-            {data.snapshot.date}, then checked its risks against the {data.counts.bugs} bugs users reported over the next four
-            months. For one hit, eval and improve then closed the loop: a frozen test that fails on the July code and passes on
-            the fix, and a blind patch that passes it too.
+            Discover flagged the empty-report bug a user reported {lead} days later (issue #{loop.issue}). Eval turned the risk
+            page into a frozen test that fails on the July code and passes on the real fix, and improve wrote a patch that passes
+            it without seeing that fix. Across 3 runs, discover found the same {relaiScoped.inEveryRun.length} agent bugs every
+            time.
+          </p>
+          <p className="mt-3 max-w-3xl text-white/90">
+            Bare Claude Code, with the same model and sandbox, also named #{loop.issue} in runs {controlCaught2218} of 3, and
+            finds more ordinary bugs. Both results are below.
           </p>
           <p className="mt-4 text-sm text-white/80">
             One agent · one model (Claude Opus 5.5) · no traces (code and docs only) · no network · model graders
@@ -164,7 +168,9 @@ export default function Page() {
           <Step label={`eval · frozen ${loop.frozenAt.slice(0, 16).replace("T", " ")} UTC`} title="A frozen test, written from the risk page">
             <p>
               <Code>{loop.testId}</Code> calls the real <Code>write_report</Code> with every model call answered by a 429 stub,
-              and passes only if the failure reaches the caller. Committed ({loop.frozenCommit}) before any fix was applied.
+              and passes only if the failure reaches the caller. Committed ({loop.frozenCommit}) before any fix was applied.{" "}
+              <a href={`${REPO}/tree/main/bench/loop/test`} className="text-sky underline">Test</a> ·{" "}
+              <a href={`${REPO}/tree/main/bench/loop/harness`} className="text-sky underline">429 stub</a>
             </p>
             <p className="mt-2">
               July code: <strong className="text-miss">{passed(loop.trials.snapshot)} pass</strong> (it returns an empty
@@ -180,14 +186,15 @@ export default function Page() {
             </p>
           </Step>
         </ol>
-        <p className="mt-4 text-sm text-muted">
-          Fair note: bare Claude Code, same model and sandbox, also named this bug in runs {controlCaught2218} of 3.
-        </p>
       </section>
 
       <section className="border-t border-line bg-panel/40" aria-labelledby="hindcast">
         <div className="mx-auto max-w-5xl px-6 py-12">
           <h2 id="hindcast" className="text-2xl font-semibold">The hindcast: 3 runs of discover, 3 of bare Claude Code</h2>
+          <p className="mt-3 text-lg">
+            Agent bugs: discover {relaiScoped.mean.toFixed(1)} per run, bare {controlScoped.mean.toFixed(1)}. All bugs: bare finds
+            more ({controlAll.mean.toFixed(1)} vs {relaiAll.mean.toFixed(1)}), mostly ordinary bugs discover excludes by design.
+          </p>
           <p className="mt-3 max-w-3xl leading-relaxed text-soft">
             Of {data.counts.issues} issues filed {data.window[0]} to {data.window[1]}, {data.counts.bugs} are bugs in code that
             already existed on {data.snapshot.date} (classified blind, before any risk list was read). {data.counts.agent_bugs} of
@@ -220,7 +227,7 @@ export default function Page() {
             </li>
             <li>
               <strong className="text-ink">Outside its scope, bare Claude Code finds more.</strong> Its extra hits are import-time
-              NameErrors, retriever calls with no timeout and a config reset: ordinary bugs the skill’s description excludes.
+              NameErrors, retriever calls with no timeout and a config reset, which are ordinary bugs the skill’s description excludes, plus one agent bug discover never named (#2100, prefetched sources missing from References).
             </li>
             <li>
               <strong className="text-ink">What discover leaves behind.</strong> Each run wrote{" "}

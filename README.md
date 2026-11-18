@@ -22,9 +22,9 @@ skill finds "where this agent can fail". This repo tests that against real bug r
 | Bare Claude Code | 5 · 8 · 6 | 4 | 8 · 9 · 10 |
 
 - **Agent bugs:** the two arms are about even, and discover is steadier from run to run.
-- **All bugs:** bare Claude Code finds more. Its extra hits are ordinary bugs, such as import-time
-  `NameError`s, retriever calls with no timeout and a config reset. Discover's description says
-  it excludes these.
+- **All bugs:** bare Claude Code finds more. Five of its six extra hits are ordinary bugs, such as
+  import-time `NameError`s, retriever calls with no timeout and a config reset, which discover's
+  description says it excludes. The sixth, #2100, is an agent bug discover never named.
 - **The #2218 frozen test:**
   - The July code fails it in 3 of 3 trials.
   - PR #2219's two lines alone pass it in 3 of 3.
