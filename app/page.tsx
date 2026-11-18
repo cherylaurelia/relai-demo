@@ -138,7 +138,7 @@ export default function Page() {
         </nav>
         <div className="mx-auto max-w-5xl px-6 pb-14 pt-10">
           <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            Given gpt-researcher’s July code, RELAI found a bug a user reported {lead} days later, then wrote the test and the fix.
+            Given gpt-researcher’s July code, RELAI found a bug a user reported {lead} days later, then wrote a test for it and a patch that passes it.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/90">
             Discover named the empty-report bug (issue #{loop.issue}); eval turned that risk page into a frozen test that fails
@@ -170,7 +170,7 @@ export default function Page() {
           <Step label={`eval · frozen ${loop.frozenAt.slice(0, 16).replace("T", " ")} UTC`} title="A frozen test, written from the risk page">
             <p>
               <Code>{loop.testId}</Code> calls the real <Code>write_report</Code> with every model call answered by a 429 stub,
-              and passes only if the failure reaches the caller. Committed ({loop.frozenCommit}) before any fix was applied.{" "}
+              and passes only if the failure reaches the caller. Frozen and committed ({loop.frozenCommit}) before any fix was applied to the snapshot. This was 2026-11-18, after PR #{loop.fixPr} merged upstream; the run had no network and the snapshot no git history, so the skills could not see the fix.{" "}
               <a href={`${REPO}/tree/main/bench/loop/test`} className="text-sky underline">Test</a> ·{" "}
               <a href={`${REPO}/tree/main/bench/loop/harness`} className="text-sky underline">429 stub</a>
             </p>
@@ -228,6 +228,9 @@ export default function Page() {
           </p>
           <div className="mt-6 overflow-x-auto">
             <table className="w-full min-w-[40rem] text-sm">
+              <caption className="pb-3 text-left text-xs text-muted">
+                Bugs both graders matched, per run. Agent vs ordinary split decided after the results were known.
+              </caption>
               <thead className="text-left text-muted">
                 <tr>
                   <th scope="col" className="pb-2 pr-4 font-normal">Arm</th>
@@ -246,9 +249,9 @@ export default function Page() {
           </div>
           <ul className="mt-6 space-y-2 text-sm leading-relaxed text-soft">
             <li>
-              <strong className="text-ink">Within its scope, about even, and repeatable.</strong> Discover found the same{" "}
-              {relaiScoped.inEveryRun.length} agent bugs in every run; bare Claude Code agreed with itself on{" "}
-              {controlScoped.inEveryRun.length}. Frozen evals need a risk set that doesn’t change each time you ask.
+              <strong className="text-ink">Within its scope, about even, and steadier (n = 3 runs each).</strong> Discover named{" "}
+              {relaiScoped.inEveryRun.length} of its {relaiScoped.inAnyRun.length} agent bugs in every run; bare Claude Code{" "}
+              {controlScoped.inEveryRun.length} of {controlScoped.inAnyRun.length}. Frozen evals need a risk set that doesn’t change each time you ask.
             </li>
             <li>
               <strong className="text-ink">Outside its scope, bare Claude Code finds more.</strong> Its extra hits are import-time
