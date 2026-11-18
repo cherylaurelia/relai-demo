@@ -138,17 +138,14 @@ export default function Page() {
         </nav>
         <div className="mx-auto max-w-5xl px-6 pb-14 pt-10">
           <h1 className="max-w-3xl text-4xl font-semibold leading-tight tracking-tight sm:text-5xl">
-            RELAI’s loop on gpt-researcher’s July code: risk → frozen test → blind fix.
+            Given gpt-researcher’s July code, RELAI found a bug a user reported {lead} days later, then wrote the test and the fix.
           </h1>
           <p className="mt-5 max-w-3xl text-lg leading-relaxed text-white/90">
-            Eval turned a discover risk page into a frozen test that fails on the July code ({passed(loop.trials.snapshot)} pass)
-            and passes with the real fix ({passed(loop.trials.withPr2219)}). Improve, without seeing that fix, wrote a patch that
-            passes it too ({passed(loop.trials.relaiImprove)}). The bug: a user reported it {lead} days after that code (issue
-            #{loop.issue}).
+            Discover named the empty-report bug (issue #{loop.issue}); eval turned that risk page into a frozen test that fails
+            before the real fix and passes after it; improve, without seeing the fix, wrote a patch that passes it too.
           </p>
           <p className="mt-3 max-w-3xl text-white/90">
-            Bare Claude Code, with the same model and sandbox, named #{loop.issue} too (runs {controlCaught2218} of 3) and finds
-            more ordinary bugs, but it leaves a list, not a test. Both results are below.
+            Against bare Claude Code (same model, same sandbox): the same hit rate on agent bugs, but the same {relaiScoped.inEveryRun.length} agent bugs in every run and a runnable test at the end. Bare Claude also named #{loop.issue} (runs {controlCaught2218} of 3) and finds more ordinary bugs.
           </p>
           <p className="mt-4 text-sm text-white/80">
             One agent · one model (Claude Opus 5.5) · no traces (code and docs only) · no network · model graders
@@ -195,7 +192,7 @@ export default function Page() {
 
       <section className="mx-auto max-w-5xl px-6 pb-12" aria-labelledby="artifact">
         <h2 id="artifact" className="text-xl font-semibold">What each arm left for #{loop.issue}</h2>
-        <div className="mt-4 grid gap-4 md:grid-cols-2">
+        <div className="mt-4 grid items-start gap-4 md:grid-cols-2">
           <figure className="rounded-[10px] border border-line bg-panel p-4">
             <figcaption className="font-mono text-xs uppercase tracking-wider text-teal">RELAI discover · wiki risk page</figcaption>
             <pre className="mt-3 whitespace-pre-wrap font-mono text-xs leading-relaxed text-soft">{loop.riskPageExcerpt}</pre>
@@ -217,13 +214,16 @@ export default function Page() {
         <div className="mx-auto max-w-5xl px-6 py-12">
           <h2 id="hindcast" className="text-2xl font-semibold">The hindcast: 3 runs of discover, 3 of bare Claude Code</h2>
           <p className="mt-3 text-lg">
-            Agent bugs: discover {relaiScoped.mean.toFixed(1)} per run, bare {controlScoped.mean.toFixed(1)}. All bugs: bare finds
-            more ({controlAll.mean.toFixed(1)} vs {relaiAll.mean.toFixed(1)}), mostly ordinary bugs discover excludes by design.
+            Takeaway: the same hit rate as bare Claude Code on agent bugs ({relaiScoped.mean.toFixed(1)} vs{" "}
+            {controlScoped.mean.toFixed(1)} per run), steadier across runs, and it leaves a wiki eval can build tests from. On all
+            bugs bare Claude finds more ({controlAll.mean.toFixed(1)} vs {relaiAll.mean.toFixed(1)}), mostly ordinary bugs discover
+            excludes by design.
           </p>
           <p className="mt-3 max-w-3xl leading-relaxed text-soft">
             Of {data.counts.issues} issues filed {data.window[0]} to {data.window[1]}, {data.counts.bugs} are bugs in code that
             already existed on {data.snapshot.date} (classified blind, before any risk list was read). {data.counts.agent_bugs} of
-            them are agent bugs, the scope discover’s description claims; the rest are ordinary bugs it says it excludes. A bug counts
+            them are agent bugs, the scope discover’s description claims; the rest are ordinary bugs it says it excludes. That split was
+            made after the arm results were known (two graders, no disagreements), so the all-bugs columns are shown too. A bug counts
             only if both graders (Opus and Sonnet) found a risk naming the same function and the same failure.
           </p>
           <div className="mt-6 overflow-x-auto">
@@ -302,8 +302,11 @@ export default function Page() {
           </li>
         </ul>
         <pre className="mt-6 overflow-x-auto rounded-[10px] border border-line bg-panel p-4 font-mono text-xs leading-relaxed text-soft">
-{`git clone ${REPO} && cd relai-demo/bench
-./run_arm.sh relai relai-p1   # needs the snapshot in ./relai-p1 (see README)
+{`git clone ${REPO} && git clone ${GPTR} src
+git clone ${RELAI_REPO} ~/agent-eval-loop && git -C ~/agent-eval-loop checkout 374f8ed
+mkdir -p ~/scratch-relai/bench/relai-p1 && git -C src archive 5d84d2f | tar -x -C ~/scratch-relai/bench/relai-p1
+cp -R relai-demo/bench/. ~/scratch-relai/bench/ && cd ~/scratch-relai/bench
+./run_arm.sh relai relai-p1
 python3 -I scoring/extract.py relai-p1 A1 && scoring/grade.sh A1 claude-opus-5-5`}
         </pre>
       </section>

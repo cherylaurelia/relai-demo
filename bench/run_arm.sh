@@ -2,7 +2,7 @@
 # usage: run_arm.sh <arm relai|ctrl> <dir-name>
 set -u
 ARM=$1; NAME=$2; B=~/scratch-relai/bench
-cd $B/$NAME || exit 1
+mkdir -p $B/logs; cd $B/$NAME || exit 1
 NOQ="I'm not available to answer questions during this run: where you would ask me, record the question in your output instead and continue to the end."
 if [ $ARM = relai ]; then
   PROMPT="Use RELAI's discover skill to read this agent's code, prompts and docs, and tell me where it is likely to fail. $NOQ"
